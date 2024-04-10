@@ -2,23 +2,12 @@
 set -eou
 
 # Wait for the Bedrock flag for this network to be set.
-echo "Waiting for Bedrock node to initialize..."
-while [ ! -f /shared/initialized.txt ]; do
-  sleep 1
-done
+# echo "Waiting for Bedrock node to initialize..."
+# while [ ! -f /shared/initialized.txt ]; do
+#   sleep 1
+# done
 
-if [ -z "${IS_CUSTOM_CHAIN+x}" ]; then
-  if [ "$NETWORK_NAME" == "op-mainnet" ] || [ "$NETWORK_NAME" == "op-goerli" ]; then
-    export EXTENDED_ARG="${EXTENDED_ARG:-} --rollup.historicalrpc=${OP_GETH__HISTORICAL_RPC:-http://l2geth:8545} --op-network=$NETWORK_NAME"
-  else
-    export EXTENDED_ARG="${EXTENDED_ARG:-} --op-network=$NETWORK_NAME"
-  fi
-fi
-
-# Init genesis if custom chain
-if [ -n "${IS_CUSTOM_CHAIN+x}" ]; then
-  geth init --datadir="$BEDROCK_DATADIR" /chainconfig/genesis.json
-fi
+export EXTENDED_ARG="${EXTENDED_ARG:-} --op-network=$NETWORK_NAME"
 
 # Determine syncmode based on NODE_TYPE
 if [ -z "${OP_GETH__SYNCMODE+x}" ]; then
