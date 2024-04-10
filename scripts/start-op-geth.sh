@@ -8,6 +8,7 @@ set -eou
 # done
 
 export EXTENDED_ARG="${EXTENDED_ARG:-} --op-network=$NETWORK_NAME"
+export OP_GETH__SYNCMODE="full"
 
 # Determine syncmode based on NODE_TYPE
 if [ -z "${OP_GETH__SYNCMODE+x}" ]; then
