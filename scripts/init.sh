@@ -21,7 +21,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 ### Set up disks
-MNT_DIR=/op-geth
+MNT_DIR=op-geth
 sudo apt update && sudo apt install mdadm --no-install-recommends
 sudo mdadm --create /dev/md0 --level=0 --raid-devices=8 \
  /dev/disk/by-id/google-local-nvme-ssd-0 \
