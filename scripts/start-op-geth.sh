@@ -39,7 +39,7 @@ exec geth \
   --authrpc.vhosts="*" \
   --authrpc.addr=0.0.0.0 \
   --authrpc.port=8551 \
-  --authrpc.jwtsecret=/shared/jwt.txt \
+  --authrpc.jwtsecret=/secrets/jwt.txt \
   --rollup.sequencerhttp="$BEDROCK_SEQUENCER_HTTP" \
   --rollup.disabletxpoolgossip=true \
   --port="${PORT__OP_GETH_P2P:-39393}" \

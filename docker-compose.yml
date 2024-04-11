@@ -12,9 +12,11 @@ services:
     volumes:
       - ./envs/${NETWORK_NAME}/config:/chainconfig
       - ./scripts/:/scripts
+      - ./secrets/:/secrets
       - shared:/shared
       - /mnt/disks/op-geth/:/geth
     ports:
+      - ${PORT__OP_GETH_AUTH:-9995}:8551
       - ${PORT__OP_GETH_HTTP:-9993}:8545
       - ${PORT__OP_GETH_WS:-9994}:8546
       - ${PORT__OP_GETH_P2P:-39393}:${PORT__OP_GETH_P2P:-39393}/udp
