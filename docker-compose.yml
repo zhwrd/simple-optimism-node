@@ -5,73 +5,21 @@ services:
     image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101308.2
     restart: unless-stopped
     stop_grace_period: 5m
-    entrypoint: /scripts/start-op-geth.sh
+    entrypoint: geth
     env_file:
       - ./envs/${NETWORK_NAME}/op-geth.env
       - .env
     volumes:
-      - ./envs/${NETWORK_NAME}/config:/chainconfig
-      - ./scripts/:/scripts
       - ./secrets/:/secrets
-      - shared:/shared
       - /mnt/disks/op-geth/:/geth
     ports:
-      - ${PORT__OP_GETH_AUTH:-9995}:8551
-      - ${PORT__OP_GETH_HTTP:-9993}:8545
-      - ${PORT__OP_GETH_WS:-9994}:8546
-      - ${PORT__OP_GETH_P2P:-39393}:${PORT__OP_GETH_P2P:-39393}/udp
-      - ${PORT__OP_GETH_P2P:-39393}:${PORT__OP_GETH_P2P:-39393}/tcp
+      - ${GETH_AUTHRPC_PORT:-8551}:8551
+      - ${GETH_HTTP_PORT:-8545}:8545
+      - ${GETH_WS_PORT:-854}:8546
+      - ${GETH_DISCOVERY_PORT:-30303}:${GETH_DISCOVERY_PORT:-30303}/udp
+      - ${GETH_PORT:-30304}:${GETH_PORT:-30304}/tcp
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
-  # bedrock-init:
-  #   build:
-  #     context: ./docker/dockerfiles
-  #     dockerfile: Dockerfile.bedrock-init
-  #   entrypoint: /scripts/init-bedrock.sh
-  #   env_file:
-  #     - ./envs/${NETWORK_NAME}/op-geth.env
-  #     - .env
-  #   volumes:
-  #     - ./scripts/:/scripts
-  #     - shared:/shared
-  #     - op_geth:/geth
-  #     - geth:/legacy-geth
-  #     - torrent_downloads:/downloads
-
-  # prometheus:
-  #   image: prom/prometheus:${IMAGE_TAG__PROMETHEUS:-latest}
-  #   restart: unless-stopped
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - ./docker/prometheus:/etc/prometheus
-  #     - prometheus_data:/prometheus
-  #   ports:
-  #     - ${PORT__PROMETHEUS:-9090}:9090
-
-  # grafana:
-  #   image: grafana/grafana:${IMAGE_TAG__GRAFANA:-9.3.0}
-  #   restart: unless-stopped
-  #   env_file:
-  #     -  ./envs/common/grafana.env
-  #   volumes:
-  #     - ./docker/grafana/provisioning/:/etc/grafana/provisioning/:ro
-  #     - ./docker/grafana/dashboards/simple_node_dashboard.json:/var/lib/grafana/dashboards/simple_node_dashboard.json
-  #     - grafana_data:/var/lib/grafana
-  #   ports:
-  #     - ${PORT__GRAFANA:-3000}:3000
-
-  # influxdb:
-  #   image: influxdb:${IMAGE_TAG__INFLUXDB:-1.8}
-  #   restart: unless-stopped
-  #   env_file:
-  #     - ./envs/common/influxdb.env
-  #   volumes:
-  #     - ./docker/influxdb/influx_init.iql:/docker-entrypoint-initdb.d/influx_init.iql
-  #     - influxdb_data:/var/lib/influxdb
-  #   ports:
-  #     - ${PORT__INFLUXDB:-8086}:8086
 
 volumes:
   # dtl:
@@ -79,6 +27,5 @@ volumes:
   # prometheus_data:
   # grafana_data:
   # influxdb_data:
-  shared:
   op_geth:
   # torrent_downloads:
