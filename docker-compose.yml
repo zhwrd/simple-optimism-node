@@ -7,7 +7,7 @@ services:
     stop_grace_period: 5m
     entrypoint: geth
     env_file:
-      - ./envs/${NETWORK_NAME}/op-geth.env
+      - ./envs/op-mainnet/op-geth.env
       - .env
     volumes:
       - ./secrets/:/secrets
