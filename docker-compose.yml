@@ -16,5 +16,7 @@ services:
       - ${GETH_WS_PORT:-854}:8546
       - ${GETH_DISCOVERY_PORT:-30303}:${GETH_DISCOVERY_PORT:-30303}/udp
       - ${GETH_PORT:-30304}:${GETH_PORT:-30304}/tcp
+      - 6060:6060
+      - 6061:6061
     extra_hosts:
       - "host.docker.internal:host-gateway"
